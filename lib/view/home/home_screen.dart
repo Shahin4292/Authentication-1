@@ -89,10 +89,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  Text(userDetails!.data?.info?.birthDate ?? 'N/A',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 20),
                   BioCard(userDetails: userDetails),
                   const SizedBox(height: 10),
                   Card(
