@@ -1,3 +1,4 @@
+import 'package:authentication/view/change_password/password_change_screen.dart';
 import 'package:flutter/material.dart';
 import 'viewModel/service/http_service.dart';
 import 'view/login/login_screen.dart';
@@ -22,8 +23,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),
-
-        // '/password-change': (context) => PasswordChangeScreen(),
+        '/password-change': (context) => PasswordChangeScreen(),
       },
     );
   }
