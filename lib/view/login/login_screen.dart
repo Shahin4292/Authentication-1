@@ -1,8 +1,8 @@
 import 'package:authentication/res/components/modify_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../viewModel/service/http_service.dart';
 import '../../models/login_request.dart';
-import '../../res/assets/app_assets.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -62,13 +62,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 6,
                 children: <Widget>[
-                  Center(
-                    child: Image.asset(
-                      AppAssets.alpha,
-                      height: 150,
-                      width: 136,
-                    ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/icon.svg',
+                        height: 80,
+                        width: 80,
+                        color: Colors.blue,
+                        fit: BoxFit.contain,
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                          child: Text("net",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w400,color: Colors.blue),))
+                    ],
                   ),
+                  SizedBox(height: 10),
                   Align(
                     alignment: Alignment.center,
                     child: Text("Login",
