@@ -1,4 +1,6 @@
+import 'package:authentication/view/home/widget/bio_card.dart';
 import 'package:authentication/view/home/widget/custom_card.dart';
+import 'package:authentication/view/home/widget/skill_card.dart';
 import 'package:flutter/material.dart';
 import '../../viewModel/service/http_service.dart';
 import '../../models/user_details_response.dart';
@@ -91,67 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       style:
                           TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                   SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Card(
-                        elevation: 2,
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 10),
-                          child: Row(
-                            children: [
-                              Icon(Icons.phone, color: Colors.green),
-                              const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Phone",
-                                      style: TextStyle(
-                                          fontSize: 12, color: Colors.grey)),
-                                  Text(userDetails!.data?.info?.phone ?? 'N/A',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Card(
-                        elevation: 2,
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 10),
-                          child: Row(
-                            children: [
-                              Icon(Icons.calendar_today, color: Colors.green),
-                              const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Date of Birth",
-                                      style: TextStyle(
-                                          fontSize: 12, color: Colors.grey)),
-                                  Text("01 Jan, 2000",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  BioCard(userDetails: userDetails),
                   const SizedBox(height: 10),
                   Card(
                     elevation: 2,
@@ -199,29 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(height: 10),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: userDetails!.data?.skills?.map((skill) {
-                            return Container(
-                              padding: EdgeInsets.only(right: 8),
-                              child: SizedBox(
-                                height: 90,
-                                width: 90,
-                                child: Card(
-                                  color: Colors.white,
-                                  child: Center(
-                                      child: Text(
-                                    skill,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        fontSize: 14),
-                                  )),
-                                ),
-                              ),
-                            );
-                          }).toList() ??
-                          [],
-                    ),
+                    child: SkillCard(userDetails: userDetails),
                   ),
                 ],
               ),

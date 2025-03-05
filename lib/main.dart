@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'viewModel/service/http_service.dart';
 import 'view/login/login_screen.dart';
 import 'view/home/home_screen.dart';
-import 'password_change_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
