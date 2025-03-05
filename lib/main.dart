@@ -1,26 +1,30 @@
-import 'package:authentication/res/routes/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'viewModel/service/http_service.dart';
+import 'view/login/login_screen.dart';
+import 'view/home/home_screen.dart';
+import 'password_change_screen.dart';
 
-import 'Res/colors/app_colors.dart';
-
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await HttpService().initialize();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColor.backgroundColor),
-        useMaterial3: true,
-      ),
-      getPages: AppRoutes.appRoutes(),
+      title: 'Flutter Exam',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => LoginScreen(),
+        '/home': (context) => HomeScreen(),
+        // '/password-change': (context) => PasswordChangeScreen(),
+      },
     );
   }
 }

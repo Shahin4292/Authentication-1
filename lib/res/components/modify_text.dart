@@ -8,10 +8,10 @@ class ModifiedText extends StatelessWidget {
 
   const ModifiedText(
       {super.key,
-      required this.text,
-      required this.color,
-      required this.size,
-      required this.fontWeight});
+        required this.text,
+        required this.color,
+        required this.size,
+        required this.fontWeight});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class BoldText extends StatelessWidget {
     return Text(
       text,
       style:
-          TextStyle(color: color, fontSize: size, fontWeight: FontWeight.bold),
+      TextStyle(color: color, fontSize: size, fontWeight: FontWeight.bold),
     );
   }
 }
