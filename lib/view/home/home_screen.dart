@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 await HttpService().clearToken();
                 Navigator.pushReplacementNamed(context, '/login');
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(response.msg)),
+                  SnackBar(content: Text("LogOut")),
                 );
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
