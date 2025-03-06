@@ -137,20 +137,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       return null;
                     },
                   ),
-                  GestureDetector(
-                    // onTap: (){
-                    //   Navigator.pushReplacementNamed(context, '/password-change');
-                    // },
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: ModifiedText(
-                        text: 'Forgot Password',
-                        color: Colors.red,
-                        fontWeight: FontWeight.normal,
-                        size: 14,
-                      ),
-                    ),
-                  ),
                   SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
