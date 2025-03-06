@@ -15,6 +15,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   UserDetailsResponse? userDetails;
 
+  Future<String> getAvatarUrl() async {
+    await Future.delayed(Duration(seconds: 2)); // Simulate network delay
+    return userDetails!.data!.info!.avatar!; // Replace with real API call
+  }
+
   Future<void> _fetchUserDetails() async {
     final response = await HttpService().getUserDetails();
     if (response.error == 0) {
@@ -22,9 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
         userDetails = response;
       });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(response.msg ?? '')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(response.msg ?? '')));
     }
   }
 
@@ -48,100 +53,150 @@ class _HomeScreenState extends State<HomeScreen> {
               if (response.error == 0) {
                 await HttpService().clearToken();
                 Navigator.pushReplacementNamed(context, '/login');
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("LogOut")),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text("LogOut")));
               } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(response.msg)),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(response.msg)));
               }
             },
           ),
         ],
       ),
-      body: userDetails == null
-          ? Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                            radius: 40,
-                            backgroundImage: NetworkImage(
-                                userDetails!.data?.info?.avatar ?? "N/A")),
-                        SizedBox(height: 15),
-                        Text(
-                          userDetails!.data?.info?.name ?? 'N/A',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          userDetails!.data?.info?.email ?? 'N/A',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  BioCard(userDetails: userDetails),
-                  const SizedBox(height: 10),
-                  Card(
-                    elevation: 2,
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
+      body:
+          userDetails == null
+              ? Center(child: CircularProgressIndicator())
+              : SingleChildScrollView(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Column(
                         children: [
-                          Icon(Icons.location_on, color: Colors.orange),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                                userDetails!.data?.info?.address ?? 'N/A',
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold)),
+                          FutureBuilder<String>(
+                            future: getAvatarUrl(), // Function to fetch avatar
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircleAvatar(
+                                  radius: 40,
+                                  backgroundColor: Colors.grey[300],
+                                  child:
+                                      CircularProgressIndicator(), // Show loader while fetching data
+                                );
+                              } else if (snapshot.hasError ||
+                                  !snapshot.hasData ||
+                                  snapshot.data!.isEmpty) {
+                                return CircleAvatar(
+                                  radius: 40,
+                                  backgroundColor: Colors.grey[300],
+                                  child: Icon(
+                                    Icons.image_not_supported,
+                                    size: 40,
+                                    color: Colors.grey,
+                                  ), // Fallback avatar
+                                );
+                              } else {
+                                return CircleAvatar(
+                                  radius: 40,
+                                  backgroundImage: NetworkImage(
+                                    snapshot.data!,
+                                  ), // Display fetched image
+                                );
+                              }
+                            },
+                          ),
+
+                          // CircleAvatar(
+                          //     radius: 40,
+                          //     backgroundImage: NetworkImage(
+                          //         userDetails!.data?.info?.avatar ?? "N/A")),
+                          SizedBox(height: 15),
+                          Text(
+                            userDetails!.data?.info?.name ?? 'N/A',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            userDetails!.data?.info?.email ?? 'N/A',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  Text('Hobbies:',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.grey)),
-                  SizedBox(height: 10),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: userDetails!.data?.hobbies?.map((hobby) {
-                            return CustomCard(hobbies: hobby,);
-                          }).toList() ??
-                          [],
+                    SizedBox(height: 20),
+                    BioCard(userDetails: userDetails),
+                    const SizedBox(height: 10),
+                    Card(
+                      elevation: 2,
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          children: [
+                            Icon(Icons.location_on, color: Colors.orange),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                userDetails!.data?.info?.address ?? 'N/A',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  Text('Skills:',
+                    SizedBox(height: 10),
+                    Text(
+                      'Hobbies:',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.grey)),
-                  SizedBox(height: 10),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: SkillCard(userDetails: userDetails),
-                  ),
-                ],
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children:
+                            userDetails!.data?.hobbies?.map((hobby) {
+                              return CustomCard(hobbies: hobby);
+                            }).toList() ??
+                            [],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Skills:',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: SkillCard(userDetails: userDetails),
+                    ),
+                  ],
+                ),
               ),
-            ),
     );
   }
 }

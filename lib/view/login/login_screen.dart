@@ -62,23 +62,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 6,
                 children: <Widget>[
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/images/icon.svg',
-                        height: 80,
-                        width: 80,
-                        color: Colors.blue,
-                        fit: BoxFit.contain,
-                      ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                          child: Text("net",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w400,color: Colors.blue),))
-                    ],
+                  Center(
+                    child: Image.asset("assets/images/logos.png",height: 130,width: 130),
+                    // child: SvgPicture.asset(
+                    //   'assets/images/alpha_logo.svg',
+                    //   fit: BoxFit.contain, // Ensures it fits within the given dimensions
+                    //   placeholderBuilder: (context) => CircularProgressIndicator(), // Shows a loader if SVG takes time to load
+                    // ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 5),
                   Align(
                     alignment: Alignment.center,
                     child: Text("Login",
@@ -146,7 +138,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                   GestureDetector(
-                    // onTap: loginController.forgotPassword,
+                    // onTap: (){
+                    //   Navigator.pushReplacementNamed(context, '/password-change');
+                    // },
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: ModifiedText(
