@@ -87,3 +87,33 @@ class HttpService {
     };
   }
 }
+
+
+
+
+// void phoneTypes() async {
+//   try {
+//     final response = await homeRepo.phoneTypes();
+//     if(response?.error == 0){
+//       phoneTypesData = response!.data;
+//       selectedPhoneType = phoneTypesData.firstWhere(
+//             (type) => type.name.toLowerCase() == 'office',
+//       );
+//     }else{
+//       debugPrint("No Data Found");
+//     }
+//   } catch (e) {
+//     debugPrint("Response error : $e");
+//   }
+// }
+
+
+// Future<PhoneTypesModel?> phoneTypes() async {
+//   try {
+//     Response response = await apiClient.getData(AppConstants.phoneTypesUri);
+//     return PhoneTypesModel.fromJson(response.body);
+//   } catch (e) {
+//     debugPrint("$e");
+//   }
+//   return null;
+// }

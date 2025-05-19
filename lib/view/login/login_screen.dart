@@ -28,7 +28,6 @@ class _LoginScreenState extends State<LoginScreen> {
         final response = await HttpService().login(request);
         if (response.error == 0) {
           await HttpService().setToken(response.data.token);
-
           Navigator.pushReplacementNamed(context, '/home');
           print('Login successful! Token: ${response.data.token}');
           ScaffoldMessenger.of(context).showSnackBar(

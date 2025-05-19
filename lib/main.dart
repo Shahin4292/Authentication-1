@@ -6,7 +6,7 @@ import 'view/home/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await HttpService().initialize();
+  // await HttpService().initialize();
   runApp(MyApp());
 }
 
